@@ -11,8 +11,8 @@ export const useAdminChat = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isVisitorTyping, setIsVisitorTyping] = useState(false);
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const presenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const presenceIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Update admin presence
   const updatePresence = useCallback(async (isOnline: boolean) => {

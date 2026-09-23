@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
+import { submitToStaticForms } from "@/lib/staticforms";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -26,6 +27,7 @@ export function ContactFormSection() {
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (field: keyof ContactFormData, value: string) => {
@@ -35,7 +37,7 @@ export function ContactFormSection() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = contactSchema.safeParse(formData);
 
@@ -49,11 +51,31 @@ export function ContactFormSection() {
       return;
     }
 
-    setIsSubmitted(true);
-    toast({
-      title: "Message sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
+    setIsSubmitting(true);
+    try {
+      await submitToStaticForms(
+        {
+          name: result.data.name,
+          email: result.data.email,
+          company: result.data.company,
+          message: result.data.message,
+        },
+        `Contact form from ${result.data.name} (${result.data.company})`,
+      );
+      setIsSubmitted(true);
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+    } catch {
+      toast({
+        title: "Could not send message",
+        description: "Please try again in a moment.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -164,9 +186,9 @@ export function ContactFormSection() {
             )}
           </div>
 
-          <Button type="submit" size="lg" className="w-full md:w-auto">
+          <Button type="submit" size="lg" className="w-full md:w-auto" disabled={isSubmitting}>
             <Send className="w-4 h-4 mr-2" />
-            Send Message
+            {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
         </motion.form>
       </div>

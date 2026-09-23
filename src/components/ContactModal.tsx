@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
+import { submitToStaticForms } from "@/lib/staticforms";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -30,6 +31,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -42,6 +44,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     const result = contactSchema.safeParse(formData);
     
@@ -57,10 +60,23 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       return;
     }
 
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      await submitToStaticForms(
+        {
+          name: result.data.name,
+          email: result.data.email,
+          company: result.data.company,
+          role: result.data.role,
+          message: result.data.message,
+        },
+        `Demo request from ${result.data.name} (${result.data.company})`,
+      );
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -69,6 +85,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setTimeout(() => {
       setFormData({ name: "", email: "", company: "", role: "", message: "" });
       setErrors({});
+      setSubmitError(null);
       setIsSubmitted(false);
     }, 300);
   };
@@ -221,6 +238,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       <p className="mt-1 text-xs text-destructive">{errors.message}</p>
                     )}
                   </div>
+
+                  {submitError && (
+                    <p className="text-xs text-destructive">{submitError}</p>
+                  )}
 
                   {/* Submit */}
                   <Button

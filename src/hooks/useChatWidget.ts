@@ -53,7 +53,7 @@ export const useChatWidget = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isAdminTyping, setIsAdminTyping] = useState(false);
   const [isAdminOnline, setIsAdminOnline] = useState(false);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const visitorId = getVisitorId();
 
