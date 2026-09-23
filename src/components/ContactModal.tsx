@@ -157,7 +157,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     </label>
                     <input
                       type="text"
+                      id="demo-name"
                       name="name"
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full h-9 px-3 text-sm bg-background border border-border focus:border-primary/50 focus:outline-none transition-colors"
@@ -175,7 +177,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     </label>
                     <input
                       type="email"
+                      id="demo-email"
                       name="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full h-9 px-3 text-sm bg-background border border-border focus:border-primary/50 focus:outline-none transition-colors"
@@ -193,7 +197,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     </label>
                     <input
                       type="text"
+                      id="demo-company"
                       name="company"
+                      autoComplete="organization"
                       value={formData.company}
                       onChange={handleChange}
                       className="w-full h-9 px-3 text-sm bg-background border border-border focus:border-primary/50 focus:outline-none transition-colors"
@@ -211,7 +217,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     </label>
                     <input
                       type="text"
+                      id="demo-role"
                       name="role"
+                      autoComplete="organization-title"
                       value={formData.role}
                       onChange={handleChange}
                       className="w-full h-9 px-3 text-sm bg-background border border-border focus:border-primary/50 focus:outline-none transition-colors"
@@ -228,6 +236,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       Message
                     </label>
                     <textarea
+                      id="demo-message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
