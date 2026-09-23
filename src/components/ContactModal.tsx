@@ -57,10 +57,23 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       return;
     }
 
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      await submitToStaticForms(
+        {
+          name: result.data.name,
+          email: result.data.email,
+          company: result.data.company,
+          role: result.data.role,
+          message: result.data.message,
+        },
+        `Demo request from ${result.data.name} (${result.data.company})`,
+      );
+      setIsSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
