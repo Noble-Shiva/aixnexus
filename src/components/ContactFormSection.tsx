@@ -131,6 +131,9 @@ export function ContactFormSection() {
               <Label htmlFor="contact-name">Name *</Label>
               <Input
                 id="contact-name"
+                name="name"
+                type="text"
+                autoComplete="name"
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
@@ -145,7 +148,9 @@ export function ContactFormSection() {
               <Label htmlFor="contact-email">Email *</Label>
               <Input
                 id="contact-email"
+                name="email"
                 type="email"
+                autoComplete="email"
                 placeholder="john@company.com"
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
@@ -161,6 +166,9 @@ export function ContactFormSection() {
             <Label htmlFor="contact-company">Company *</Label>
             <Input
               id="contact-company"
+              name="company"
+              type="text"
+              autoComplete="organization"
               placeholder="Acme Inc."
               value={formData.company}
               onChange={(e) => handleChange("company", e.target.value)}
@@ -175,6 +183,7 @@ export function ContactFormSection() {
             <Label htmlFor="contact-message">Message (optional)</Label>
             <Textarea
               id="contact-message"
+              name="message"
               placeholder="Tell us about your project..."
               rows={4}
               value={formData.message}
