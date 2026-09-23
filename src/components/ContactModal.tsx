@@ -268,6 +268,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
               </>
             )}
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
