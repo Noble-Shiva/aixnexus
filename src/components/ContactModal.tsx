@@ -85,6 +85,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setTimeout(() => {
       setFormData({ name: "", email: "", company: "", role: "", message: "" });
       setErrors({});
+      setSubmitError(null);
       setIsSubmitted(false);
     }, 300);
   };
@@ -237,6 +238,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       <p className="mt-1 text-xs text-destructive">{errors.message}</p>
                     )}
                   </div>
+
+                  {submitError && (
+                    <p className="text-xs text-destructive">{submitError}</p>
+                  )}
 
                   {/* Submit */}
                   <Button
