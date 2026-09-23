@@ -105,12 +105,13 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           />
 
           {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 border border-border bg-card p-6"
+            className="pointer-events-auto w-full max-w-md max-h-[90vh] overflow-y-auto border border-border bg-card p-6 shadow-2xl shadow-black/40"
           >
             {/* Close Button */}
             <button
