@@ -186,9 +186,9 @@ export function ContactFormSection() {
             )}
           </div>
 
-          <Button type="submit" size="lg" className="w-full md:w-auto">
+          <Button type="submit" size="lg" className="w-full md:w-auto" disabled={isSubmitting}>
             <Send className="w-4 h-4 mr-2" />
-            Send Message
+            {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
         </motion.form>
       </div>
